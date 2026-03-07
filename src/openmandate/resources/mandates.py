@@ -8,7 +8,7 @@ import httpx
 from .._exceptions import APITimeoutError
 from .._pagination import AsyncPage, SyncPage
 from ..types.mandate import Mandate
-from ..types.params import AnswerParam, ContactParam, CorrectionParam
+from ..types.params import AnswerParam, CorrectionParam
 
 
 class Mandates:
@@ -22,14 +22,14 @@ class Mandates:
         self,
         *,
         category: str = "",
-        contact: ContactParam | None = None,
+        contact_ids: list[str] | None = None,
     ) -> Mandate:
         """Create a new mandate.
 
         Args:
             category: Freeform category hint (e.g. "cofounder", "recruiting",
                 "climate-tech"). Any string accepted. Defaults to empty string.
-            contact: Optional contact information.
+            contact_ids: Optional list of verified contact IDs to attach.
 
         Returns:
             The created mandate with initial pending_questions.
@@ -37,8 +37,8 @@ class Mandates:
         body: dict[str, Any] = {}
         if category:
             body["category"] = category
-        if contact is not None:
-            body["contact"] = dict(contact)
+        if contact_ids is not None:
+            body["contact_ids"] = contact_ids
         data = self._request("POST", "/v1/mandates", json=body)
         return Mandate.model_validate(data)
 
@@ -198,14 +198,14 @@ class AsyncMandates:
         self,
         *,
         category: str = "",
-        contact: ContactParam | None = None,
+        contact_ids: list[str] | None = None,
     ) -> Mandate:
         """Create a new mandate.
 
         Args:
             category: Freeform category hint (e.g. "cofounder", "recruiting",
                 "climate-tech"). Any string accepted. Defaults to empty string.
-            contact: Optional contact information.
+            contact_ids: Optional list of verified contact IDs to attach.
 
         Returns:
             The created mandate with initial pending_questions.
@@ -213,8 +213,8 @@ class AsyncMandates:
         body: dict[str, Any] = {}
         if category:
             body["category"] = category
-        if contact is not None:
-            body["contact"] = dict(contact)
+        if contact_ids is not None:
+            body["contact_ids"] = contact_ids
         data = await self._request("POST", "/v1/mandates", json=body)
         return Mandate.model_validate(data)
 

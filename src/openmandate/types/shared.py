@@ -1,15 +1,30 @@
 from __future__ import annotations
 
+from typing import Literal
+
 from pydantic import BaseModel
+
+ContactType = Literal["email"]
+VerificationStatus = Literal["pending", "verified"]
 
 
 class Contact(BaseModel):
-    """Contact information for a mandate owner or match counterparty."""
+    """Contact information revealed on mutual match accept."""
 
     email: str | None = None
-    telegram: str | None = None
-    whatsapp: str | None = None
-    phone: str | None = None
+
+
+class VerifiedContact(BaseModel):
+    """A verified contact method belonging to the authenticated user."""
+
+    id: str
+    contact_type: str
+    contact_value: str
+    display_label: str
+    status: str
+    is_primary: bool
+    verified_at: str | None = None
+    created_at: str
 
 
 class QuestionOption(BaseModel):

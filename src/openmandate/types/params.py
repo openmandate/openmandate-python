@@ -5,20 +5,11 @@ from typing import TypedDict
 from typing_extensions import NotRequired
 
 
-class ContactParam(TypedDict):
-    """Contact information for creating a mandate."""
-
-    email: NotRequired[str]
-    telegram: NotRequired[str]
-    whatsapp: NotRequired[str]
-    phone: NotRequired[str]
-
-
 class MandateCreateParams(TypedDict):
     """Parameters for creating a new mandate."""
 
     category: str
-    contact: NotRequired[ContactParam]
+    contact_ids: NotRequired[list[str]]
 
 
 class AnswerParam(TypedDict):
@@ -55,3 +46,24 @@ class MatchListParams(TypedDict, total=False):
 
     limit: int
     next_token: str
+
+
+class AddContactParams(TypedDict):
+    """Parameters for adding a new contact."""
+
+    contact_type: str
+    contact_value: str
+    display_label: NotRequired[str]
+
+
+class VerifyContactParams(TypedDict):
+    """Parameters for verifying a contact."""
+
+    code: str
+
+
+class UpdateContactParams(TypedDict, total=False):
+    """Parameters for updating a contact."""
+
+    display_label: str
+    is_primary: bool

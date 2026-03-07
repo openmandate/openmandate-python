@@ -4,7 +4,7 @@ from typing import Literal
 
 from pydantic import BaseModel
 
-from .shared import Contact, IntakeAnswer, Question
+from .shared import IntakeAnswer, Question
 
 
 MandateStatus = Literal[
@@ -27,6 +27,6 @@ class Mandate(BaseModel):
     source: str | None = None
     summary: str | None = None
     match_id: str | None = None
-    contact: Contact | None = None
+    contact_ids: list[str] = []
     pending_questions: list[Question] = []
     intake_answers: list[IntakeAnswer] = []

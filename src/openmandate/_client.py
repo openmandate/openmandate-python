@@ -12,6 +12,7 @@ from ._exceptions import (
     _make_api_error,
 )
 from ._version import __version__
+from .resources.contacts import AsyncContacts, Contacts
 from .resources.mandates import AsyncMandates, Mandates
 from .resources.matches import AsyncMatches, Matches
 
@@ -30,6 +31,7 @@ class OpenMandate:
     ``OPENMANDATE_API_KEY`` environment variable.
     """
 
+    contacts: Contacts
     mandates: Mandates
     matches: Matches
 
@@ -56,6 +58,7 @@ class OpenMandate:
             headers=self._default_headers(),
         )
 
+        self.contacts = Contacts(self._client, self._request)
         self.mandates = Mandates(self._client, self._request)
         self.matches = Matches(self._client, self._request)
 
@@ -140,6 +143,7 @@ class AsyncOpenMandate:
     ``OPENMANDATE_API_KEY`` environment variable.
     """
 
+    contacts: AsyncContacts
     mandates: AsyncMandates
     matches: AsyncMatches
 
@@ -166,6 +170,7 @@ class AsyncOpenMandate:
             headers=self._default_headers(),
         )
 
+        self.contacts = AsyncContacts(self._client, self._request)
         self.mandates = AsyncMandates(self._client, self._request)
         self.matches = AsyncMatches(self._client, self._request)
 

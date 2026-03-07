@@ -3,9 +3,9 @@
 The official Python SDK for [OpenMandate](https://openmandate.ai).
 Post mandates, check status, and receive matches through the OpenMandate API.
 
-OpenMandate is matching infrastructure. You post what you need and what you
-offer. An agent works on your behalf, talking to every other agent to find the
-perfect match. You hear back only when both sides match.
+OpenMandate helps founders find cofounders and early teammates beyond their
+network. Describe what you need and what you offer. OpenMandate keeps evaluating
+fit over time and introduces both sides when there is real mutual match.
 
 ## Installation
 
@@ -20,11 +20,8 @@ from openmandate import OpenMandate
 
 client = OpenMandate(api_key="om_live_...")
 
-# Create a mandate
-mandate = client.mandates.create(
-    category="cofounder",
-    contact={"email": "alice@example.com"},
-)
+# Create a mandate (auto-attaches your primary verified contact)
+mandate = client.mandates.create(category="cofounder")
 print(f"Created: {mandate.id}, status: {mandate.status}")
 
 # Answer intake questions
@@ -76,20 +73,17 @@ client = OpenMandate(
 
 ### Mandates
 
-#### `client.mandates.create(*, category="", contact=None)`
+#### `client.mandates.create(*, category="", contact_ids=None)`
 
 Create a new mandate.
 
 ```python
-mandate = client.mandates.create(
-    category="services",
-    contact={"email": "me@co.com", "telegram": "@me"},
-)
+mandate = client.mandates.create(category="services")
 ```
 
 **Parameters:**
 - `category` (str, optional): Freeform category hint (e.g. "services", "recruiting").
-- `contact` (ContactParam, optional): Contact info with keys `email`, `telegram`, `whatsapp`, `phone`.
+- `contact_ids` (list[str], optional): Verified contact IDs to attach. If omitted, your primary verified contact is auto-selected.
 
 **Returns:** `Mandate`
 
@@ -205,6 +199,82 @@ mandate = client.mandates.wait_for_match("mnd_abc123", timeout=600)
 **Returns:** `Mandate` with status `matched`
 
 **Raises:** `APITimeoutError` if timeout elapses
+
+---
+
+### Contacts
+
+#### `client.contacts.list(limit=None, next_token=None)`
+
+List your verified contacts.
+
+```python
+for contact in client.contacts.list():
+    print(f"{contact.contact_value} ({contact.status})")
+```
+
+**Returns:** `SyncPage[VerifiedContact]`
+
+---
+
+#### `client.contacts.add(contact_type, contact_value, display_label=None)`
+
+Add a new contact. Sends a verification code.
+
+```python
+contact = client.contacts.add("email", "work@example.com", display_label="Work")
+# contact.status == "pending" — check email for OTP
+```
+
+**Returns:** `VerifiedContact` with `status: "pending"`
+
+---
+
+#### `client.contacts.verify(contact_id, code)`
+
+Verify a contact with the OTP code.
+
+```python
+contact = client.contacts.verify("vc_abc123", "12345678")
+```
+
+**Returns:** `VerifiedContact` with `status: "verified"`
+
+---
+
+#### `client.contacts.update(contact_id, display_label=None, is_primary=None)`
+
+Update a contact's label or set it as primary.
+
+```python
+client.contacts.update("vc_abc123", is_primary=True)
+```
+
+**Returns:** `VerifiedContact`
+
+---
+
+#### `client.contacts.delete(contact_id)`
+
+Delete a contact. Cannot delete your last verified contact.
+
+```python
+client.contacts.delete("vc_abc123")
+```
+
+**Returns:** `dict`
+
+---
+
+#### `client.contacts.resend_otp(contact_id)`
+
+Resend the verification code for a pending contact.
+
+```python
+client.contacts.resend_otp("vc_abc123")
+```
+
+**Returns:** `VerifiedContact`
 
 ---
 
@@ -367,7 +437,7 @@ mandate: Mandate = client.mandates.retrieve("mnd_xxx")
 mandate.id          # str
 mandate.status      # "intake" | "processing" | "active" | ...
 mandate.category    # str | None
-mandate.contact     # Contact | None
+mandate.contact_ids        # list[str]
 mandate.pending_questions  # list[Question]
 mandate.intake_answers     # list[IntakeAnswer]
 

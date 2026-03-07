@@ -17,13 +17,15 @@ from ._exceptions import (
 )
 from ._pagination import AsyncPage, SyncPage
 from ._version import __version__
+from .resources.contacts import AsyncContacts, Contacts
 from .types import (
+    AddContactParams,
     AnswerParam,
     CloseReason,
     Compatibility,
     Concern,
     Contact,
-    ContactParam,
+    ContactType,
     CorrectionParam,
     IntakeAnswer,
     Mandate,
@@ -38,6 +40,10 @@ from .types import (
     QuestionConstraints,
     QuestionOption,
     Strength,
+    UpdateContactParams,
+    VerificationStatus,
+    VerifiedContact,
+    VerifyContactParams,
 )
 
 __all__ = [
@@ -62,13 +68,17 @@ __all__ = [
     "SyncPage",
     # Version
     "__version__",
+    # Resources
+    "AsyncContacts",
+    "Contacts",
     # Types
+    "AddContactParams",
     "AnswerParam",
     "CloseReason",
     "Compatibility",
     "Concern",
     "Contact",
-    "ContactParam",
+    "ContactType",
     "CorrectionParam",
     "IntakeAnswer",
     "Mandate",
@@ -83,4 +93,8 @@ __all__ = [
     "QuestionConstraints",
     "QuestionOption",
     "Strength",
+    "UpdateContactParams",
+    "VerificationStatus",
+    "VerifiedContact",
+    "VerifyContactParams",
 ]

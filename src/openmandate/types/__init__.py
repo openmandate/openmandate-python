@@ -1,32 +1,38 @@
 from .mandate import CloseReason, Mandate, MandateStatus
 from .match import Match, MatchStatus
 from .params import (
+    AddContactParams,
     AnswerParam,
-    ContactParam,
     CorrectionParam,
     MandateCreateParams,
     MandateListParams,
     MandateSubmitAnswersParams,
     MatchListParams,
+    UpdateContactParams,
+    VerifyContactParams,
 )
 from .shared import (
     Compatibility,
     Concern,
     Contact,
+    ContactType,
     IntakeAnswer,
     Question,
     QuestionConstraints,
     QuestionOption,
     Strength,
+    VerificationStatus,
+    VerifiedContact,
 )
 
 __all__ = [
+    "AddContactParams",
     "AnswerParam",
     "CloseReason",
     "Compatibility",
     "Concern",
     "Contact",
-    "ContactParam",
+    "ContactType",
     "CorrectionParam",
     "IntakeAnswer",
     "Mandate",
@@ -41,4 +47,8 @@ __all__ = [
     "QuestionConstraints",
     "QuestionOption",
     "Strength",
+    "UpdateContactParams",
+    "VerificationStatus",
+    "VerifiedContact",
+    "VerifyContactParams",
 ]
