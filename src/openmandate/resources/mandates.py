@@ -21,24 +21,19 @@ class Mandates:
     def create(
         self,
         *,
-        category: str = "",
-        contact_ids: list[str] | None = None,
+        want: str,
+        offer: str,
     ) -> Mandate:
-        """Create a new mandate.
+        """Create a new mandate with want and offer.
 
         Args:
-            category: Freeform category hint (e.g. "cofounder", "recruiting",
-                "climate-tech"). Any string accepted. Defaults to empty string.
-            contact_ids: Optional list of verified contact IDs to attach.
+            want: What you are looking for (min 20 characters).
+            offer: What you bring to the table (min 20 characters).
 
         Returns:
-            The created mandate with initial pending_questions.
+            The created mandate with follow-up questions.
         """
-        body: dict[str, Any] = {}
-        if category:
-            body["category"] = category
-        if contact_ids is not None:
-            body["contact_ids"] = contact_ids
+        body: dict[str, Any] = {"want": want, "offer": offer}
         data = self._request("POST", "/v1/mandates", json=body)
         return Mandate.model_validate(data)
 
@@ -64,7 +59,8 @@ class Mandates:
         """List mandates with optional filtering.
 
         Args:
-            status: Filter by status (e.g. "active", "intake").
+            status: Filter by status (e.g. "active", "closed"). Returns open
+                mandates by default when not specified.
             limit: Maximum number of items per page.
             next_token: Pagination cursor from a previous response.
 
@@ -197,24 +193,19 @@ class AsyncMandates:
     async def create(
         self,
         *,
-        category: str = "",
-        contact_ids: list[str] | None = None,
+        want: str,
+        offer: str,
     ) -> Mandate:
-        """Create a new mandate.
+        """Create a new mandate with want and offer.
 
         Args:
-            category: Freeform category hint (e.g. "cofounder", "recruiting",
-                "climate-tech"). Any string accepted. Defaults to empty string.
-            contact_ids: Optional list of verified contact IDs to attach.
+            want: What you are looking for (min 20 characters).
+            offer: What you bring to the table (min 20 characters).
 
         Returns:
-            The created mandate with initial pending_questions.
+            The created mandate with follow-up questions.
         """
-        body: dict[str, Any] = {}
-        if category:
-            body["category"] = category
-        if contact_ids is not None:
-            body["contact_ids"] = contact_ids
+        body: dict[str, Any] = {"want": want, "offer": offer}
         data = await self._request("POST", "/v1/mandates", json=body)
         return Mandate.model_validate(data)
 
@@ -240,7 +231,8 @@ class AsyncMandates:
         """List mandates with optional filtering.
 
         Args:
-            status: Filter by status (e.g. "active", "intake").
+            status: Filter by status (e.g. "active", "closed"). Returns open
+                mandates by default when not specified.
             limit: Maximum number of items per page.
             next_token: Pagination cursor from a previous response.
 

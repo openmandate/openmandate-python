@@ -8,8 +8,8 @@ from typing_extensions import NotRequired
 class MandateCreateParams(TypedDict):
     """Parameters for creating a new mandate."""
 
-    category: str
-    contact_ids: NotRequired[list[str]]
+    want: str
+    offer: str
 
 
 class AnswerParam(TypedDict):

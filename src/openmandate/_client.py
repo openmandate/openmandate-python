@@ -25,7 +25,7 @@ class OpenMandate:
         from openmandate import OpenMandate
 
         client = OpenMandate(api_key="om_live_...")
-        mandate = client.mandates.create(category="cofounder")
+        mandate = client.mandates.create(want="Looking for a technical cofounder", offer="8 years in sales and BD")
 
     If ``api_key`` is not provided, the client reads from the
     ``OPENMANDATE_API_KEY`` environment variable.
@@ -134,7 +134,7 @@ class AsyncOpenMandate:
 
         async def main():
             client = AsyncOpenMandate(api_key="om_live_...")
-            mandate = await client.mandates.create(category="cofounder")
+            mandate = await client.mandates.create(want="Looking for a technical cofounder", offer="8 years in sales and BD")
             await client.close()
 
         asyncio.run(main())

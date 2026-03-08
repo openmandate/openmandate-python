@@ -20,11 +20,14 @@ from openmandate import OpenMandate
 
 client = OpenMandate(api_key="om_live_...")
 
-# Create a mandate (auto-attaches your primary verified contact)
-mandate = client.mandates.create(category="cofounder")
+# Create a mandate with want + offer
+mandate = client.mandates.create(
+    want="Looking for a technical cofounder for my SaaS",
+    offer="8 years in sales and BD, 50+ enterprise relationships",
+)
 print(f"Created: {mandate.id}, status: {mandate.status}")
 
-# Answer intake questions
+# Answer follow-up questions
 while mandate.pending_questions:
     answers = []
     for q in mandate.pending_questions:
@@ -73,19 +76,24 @@ client = OpenMandate(
 
 ### Mandates
 
-#### `client.mandates.create(*, category="", contact_ids=None)`
+#### `client.mandates.create(*, want, offer)`
 
-Create a new mandate.
+Create a new mandate with want and offer.
 
 ```python
-mandate = client.mandates.create(category="services")
+mandate = client.mandates.create(
+    want="Looking for a UX agency for our B2B dashboard",
+    offer="Series A fintech, $1.8M ARR, two frontend engineers ready",
+)
 ```
 
 **Parameters:**
-- `category` (str, optional): Freeform category hint (e.g. "services", "recruiting").
-- `contact_ids` (list[str], optional): Verified contact IDs to attach. If omitted, your primary verified contact is auto-selected.
+- `want` (str, required): What you are looking for. Minimum 20 characters.
+- `offer` (str, required): What you bring to the table. Minimum 20 characters.
 
-**Returns:** `Mandate`
+Primary verified contact is auto-selected.
+
+**Returns:** `Mandate` with follow-up questions in `pending_questions`.
 
 ---
 
@@ -103,10 +111,16 @@ mandate = client.mandates.retrieve("mnd_abc123")
 
 #### `client.mandates.list(status=None, limit=None, next_token=None)`
 
-List mandates with optional filtering. Supports auto-pagination.
+List mandates with optional filtering. Returns open mandates by default (excludes closed). Supports auto-pagination.
 
 ```python
-# Single page
+# List open mandates (default — excludes closed)
+page = client.mandates.list()
+
+# List only closed mandates
+page = client.mandates.list(status="closed")
+
+# Filter by specific status
 page = client.mandates.list(status="active", limit=10)
 for mandate in page.items:
     print(mandate.id)
@@ -117,7 +131,7 @@ for mandate in client.mandates.list(status="active"):
 ```
 
 **Parameters:**
-- `status` (str, optional): Filter by status (`intake`, `processing`, `active`, `pending_input`, `matched`, `closed`).
+- `status` (str, optional): Filter by status (`intake`, `active`, `pending_input`, `matched`, `closed`). Returns open mandates by default.
 - `limit` (int, optional): Max items per page.
 - `next_token` (str, optional): Pagination cursor.
 
@@ -391,7 +405,7 @@ from openmandate import AsyncOpenMandate
 async def main():
     async with AsyncOpenMandate(api_key="om_live_...") as client:
         # Create a mandate
-        mandate = await client.mandates.create(category="cofounder")
+        mandate = await client.mandates.create(want="Looking for a technical cofounder", offer="8 years in sales and BD")
 
         # Submit answers
         mandate = await client.mandates.submit_answers(
@@ -419,11 +433,11 @@ Both clients support context managers for automatic cleanup:
 ```python
 # Sync
 with OpenMandate(api_key="om_live_...") as client:
-    mandate = client.mandates.create(category="cofounder")
+    mandate = client.mandates.create(want="Looking for a technical cofounder", offer="8 years in sales and BD")
 
 # Async
 async with AsyncOpenMandate(api_key="om_live_...") as client:
-    mandate = await client.mandates.create(category="cofounder")
+    mandate = await client.mandates.create(want="Looking for a technical cofounder", offer="8 years in sales and BD")
 ```
 
 ## Types
