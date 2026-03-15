@@ -41,7 +41,7 @@ print(f"Matched! Match ID: {mandate.match_id}")
 
 # View the match
 match = client.matches.retrieve(mandate.match_id)
-print(f"Score: {match.compatibility.score}")
+print(f"Grade: {match.compatibility.grade_label}")
 print(f"Summary: {match.compatibility.summary}")
 
 # Accept the match
@@ -313,7 +313,7 @@ Get a match by ID.
 
 ```python
 match = client.matches.retrieve("m_abc123")
-print(match.compatibility.score)
+print(match.compatibility.grade_label)
 ```
 
 **Returns:** `Match`
@@ -457,7 +457,8 @@ mandate.intake_answers     # list[IntakeAnswer]
 
 match: Match = client.matches.retrieve("m_xxx")
 match.compatibility        # Compatibility | None
-match.compatibility.score  # int
+match.compatibility.grade       # str ("good", "strong", "exceptional")
+match.compatibility.grade_label # str ("Good Match", "Strong Match", "Exceptional Match")
 match.compatibility.strengths  # list[Strength]
 ```
 

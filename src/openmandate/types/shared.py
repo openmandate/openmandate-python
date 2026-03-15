@@ -80,7 +80,8 @@ class Concern(BaseModel):
 class Compatibility(BaseModel):
     """Compatibility assessment for a match."""
 
-    score: int
+    grade: str = ""
+    grade_label: str = ""
     summary: str
     strengths: list[Strength] = []
     concerns: list[Concern] = []
