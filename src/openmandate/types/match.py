@@ -7,7 +7,9 @@ from pydantic import BaseModel
 from .shared import Compatibility, Contact
 
 
-MatchStatus = Literal["pending", "accepted", "confirmed", "declined", "closed"]
+MatchStatus = Literal["pending", "accepted", "confirmed", "declined", "closed", "expired"]
+
+MatchOutcome = Literal["succeeded", "ongoing", "failed"]
 
 
 class Match(BaseModel):
@@ -21,3 +23,7 @@ class Match(BaseModel):
     confirmed_at: str | None = None
     compatibility: Compatibility | None = None
     contact: Contact | None = None
+    outcome: str | None = None
+    outcome_at: str | None = None
+    show_outcome_prompt: bool = False
+    force_final_outcome: bool = False

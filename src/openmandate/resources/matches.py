@@ -83,6 +83,21 @@ class Matches:
         data = self._request("POST", f"/v1/matches/{match_id}/decline")
         return Match.model_validate(data)
 
+    def submit_outcome(self, match_id: str, outcome: str) -> Match:
+        """Submit an outcome for a match.
+
+        Args:
+            match_id: The match ID.
+            outcome: The outcome value.
+
+        Returns:
+            The updated match.
+        """
+        data = self._request(
+            "POST", f"/v1/matches/{match_id}/outcome", json={"outcome": outcome}
+        )
+        return Match.model_validate(data)
+
 
 class AsyncMatches:
     """Async resource for managing matches."""
@@ -157,4 +172,19 @@ class AsyncMatches:
             The updated match.
         """
         data = await self._request("POST", f"/v1/matches/{match_id}/decline")
+        return Match.model_validate(data)
+
+    async def submit_outcome(self, match_id: str, outcome: str) -> Match:
+        """Submit an outcome for a match.
+
+        Args:
+            match_id: The match ID.
+            outcome: The outcome value.
+
+        Returns:
+            The updated match.
+        """
+        data = await self._request(
+            "POST", f"/v1/matches/{match_id}/outcome", json={"outcome": outcome}
+        )
         return Match.model_validate(data)

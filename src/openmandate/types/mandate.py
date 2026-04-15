@@ -11,7 +11,7 @@ MandateStatus = Literal[
     "intake", "processing", "active", "pending_input", "matched", "closed"
 ]
 
-CloseReason = Literal["user_closed", "matched"]
+CloseReason = Literal["user_closed", "matched", "match_success", "expired"]
 
 
 class Mandate(BaseModel):
@@ -30,3 +30,6 @@ class Mandate(BaseModel):
     contact_ids: list[str] = []
     pending_questions: list[Question] = []
     intake_answers: list[IntakeAnswer] = []
+    activated_at: str | None = None
+    round_intro: str | None = None
+    intake_ready_at: str | None = None

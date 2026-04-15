@@ -1,5 +1,5 @@
 from .mandate import CloseReason, Mandate, MandateStatus
-from .match import Match, MatchStatus
+from .match import Match, MatchOutcome, MatchStatus
 from .params import (
     AddContactParams,
     AnswerParam,
@@ -42,6 +42,7 @@ __all__ = [
     "MandateSubmitAnswersParams",
     "Match",
     "MatchListParams",
+    "MatchOutcome",
     "MatchStatus",
     "Question",
     "QuestionConstraints",

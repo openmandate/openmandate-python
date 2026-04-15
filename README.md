@@ -4,8 +4,8 @@ The official Python SDK for [OpenMandate](https://openmandate.ai).
 Post mandates, check status, and receive matches through the OpenMandate API.
 
 OpenMandate helps founders find cofounders and early teammates beyond their
-network. Describe what you need and what you offer. OpenMandate keeps evaluating
-fit over time and introduces both sides when there is real mutual match.
+network. Describe what you need and what you offer. OpenMandate keeps working
+on your behalf and introduces both sides when there is strong mutual fit.
 
 ## Installation
 
@@ -339,6 +339,22 @@ Decline a match.
 ```python
 match = client.matches.decline("m_abc123")
 ```
+
+**Returns:** `Match`
+
+#### `client.matches.submit_outcome(match_id, outcome)`
+
+Report how a confirmed match went. Available after both parties accepted.
+
+```python
+match = client.matches.submit_outcome("m_abc123", "succeeded")
+```
+
+| Outcome | Effect |
+|---------|--------|
+| `"succeeded"` | Found the right person. Mandate closes. |
+| `"ongoing"` | Still in conversation. |
+| `"failed"` | Didn't work out. Mandate reactivates. |
 
 **Returns:** `Match`
 
