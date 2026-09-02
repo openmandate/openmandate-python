@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "openmandate"
 dynamic = ["version"]
-description = "Python SDK for OpenMandate"
+description = "OpenMandate compatibility SDK — private development; no new mandates or integrations"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.8"

@@ -1,11 +1,12 @@
 # OpenMandate Python SDK
 
-The official Python SDK for [OpenMandate](https://openmandate.ai).
-Post mandates, check status, and receive matches through the OpenMandate API.
+> [!IMPORTANT]
+> OpenMandate is in private development. We are not currently accepting new mandates or new integrations.
+> The 0.6.0 documentation below is retained as a historical compatibility reference; operations that start new work are unavailable.
 
-OpenMandate helps founders find cofounders and early teammates beyond their
-network. Describe what you need and what you offer. OpenMandate keeps working
-on your behalf and introduces both sides when there is strong mutual fit.
+This repository retains the frozen 0.6.0 Python client and its history. Existing
+accounts may use retained read and withdrawal operations; the API rejects work
+that would start or advance a new cofounder search.
 
 ## Installation
 
@@ -13,7 +14,12 @@ on your behalf and introduces both sides when there is strong mutual fit.
 pip install openmandate
 ```
 
-## Quick Start
+## Historical 0.6.0 reference
+
+The examples below document the frozen client surface. Creation and other
+new-work operations now return `SERVICE_PRIVATE_DEVELOPMENT`.
+
+### Quick Start
 
 ```python
 from openmandate import OpenMandate
